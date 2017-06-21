@@ -6,13 +6,14 @@ onready var name = get_node("HBoxContainer/PanelContainer/A/GridContainer/LineEd
 onready var equipType = get_node("HBoxContainer/PanelContainer/A/GridContainer/OptionButton")
 onready var desc = get_node("HBoxContainer/PanelContainer/PanelContainer/HBoxContainer/LineEdit")
 onready var effectdialog = get_node("EffectWindow")
+onready var effectList = get_node("HBoxContainer/PanelContainer/X/PanelContainer 2/EffectList&Notes/ItemList")
 
 var statisticbox_obj = preload("../Scenes/StatisticBox.tscn")
 
 onready var paramcontainer = get_node("HBoxContainer/PanelContainer/X/B/PanelContainer/GridContainer")
 var spinboxes = []
 
-var currentlyEditing = 0
+var currentlyEditing = -1
 
 #=================
 # GODOT CALLBACKS
@@ -114,6 +115,50 @@ func reloadList():
 			list.add_item(index+i.name)
 			v+=1
 
+func getDisplayName(effect):
+	var effectTypes = get_parent().data.system.effectType
+	var statistics = get_parent().data.system.statistic
+	var elements = get_parent().data.system.elements
+	
+	var display = effectTypes[effect.type].display
+	print(display)
+	var array_of_strings = []
+	for i in effect.args:
+		var todisplay = ""
+		if i.type == 0:
+			todisplay = "%+.f" % i.value
+		if i.type == 1:
+			todisplay = "%.2fx" % i.value
+		if i.type == 2:
+			todisplay = "%.f%%" % i.value
+		if i.type == 3:
+			if i.value >= 0: todisplay = elements[i.value].name
+			else:
+				if i.value == -1: todisplay = "All"
+				if i.value == -2: todisplay = "Normal Attack"
+		if i.type == 4:
+			todisplay = statistics[i.value].parameter_name
+		if i.type == 5:
+			if i.value == 0:
+				todisplay = "Self"
+			else:
+				todisplay = "Target"
+		if i.type == 6:
+			todisplay = statistics[i.value].name
+		array_of_strings.append(todisplay)
+	display = display % array_of_strings
+	return display
+
+func reloadEffectList():
+	effectList.clear()
+	var effectTypes = get_parent().data.system.effectType
+	if currentlyEditing >= 0:
+		if !get_parent().data.equipment[currentlyEditing].has("effects"):
+			get_parent().data.equipment[currentlyEditing].effects = []
+		for i in get_parent().data.equipment[currentlyEditing].effects:
+			var display_name = getDisplayName(i)
+			effectList.add_item(display_name)
+
 func refreshEquipmentTypeList():
 	equipType.clear()
 	var v = 0
@@ -140,11 +185,12 @@ func changeToItem( index ):
 		if (item.statistic[param] == null): 
 			item.statistic[param] = 0
 		spinboxes[i].obj.set_value(item.statistic[param])
+	reloadEffectList()
 
 
 func initItem(item):
 	var array = []
-	var dict = {"name": "", "desc": "", "equipType": 0, "statistic": array}
+	var dict = {"name": "", "desc": "", "equipType": 0, "statistic": array, "effects": [] }
 	item.statistic.resize(get_parent().data.system.statistic.size())
 	for i in item:
 		dict[i] = item[i]
@@ -176,6 +222,13 @@ func createHelp():
 	return string
 
 func openEffectList():
-	effectdialog.popup_centered()
-	effectdialog.createOptionsList(get_parent().data.system.effectType)
+	if currentlyEditing > -1:
+		effectdialog.popup_centered()
+		effectdialog.createOptionsList(get_parent().data.system.effectType)
+
+
+func createEffectOnItem():
+	print("We're did on turkey")
+	get_parent().data.equipment[currentlyEditing].effects.append(effectdialog.effect_dict)
+	reloadEffectList()
 	pass # replace with function body

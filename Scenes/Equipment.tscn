@@ -3,7 +3,6 @@
 [ext_resource path="res://addons/godot-rpgdb/Scripts/EquipmentTab.gd" type="Script" id=1]
 [ext_resource path="res://addons/godot-rpgdb/Scenes/EffectWindow.tscn" type="PackedScene" id=2]
 
-
 [node name="Equipment" type="Container"]
 
 anchor/right = 1
@@ -19,6 +18,8 @@ margin/bottom = 4.0
 script/script = ExtResource( 1 )
 
 [node name="EffectWindow" parent="." instance=ExtResource( 2 )]
+
+visibility/visible = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 
@@ -361,6 +362,8 @@ shortcut = null
 text = "Remove Effect"
 flat = false
 
+[connection signal="confirmed" from="EffectWindow" to="." method="createEffectOnItem"]
+
 [connection signal="item_selected" from="HBoxContainer/VBoxContainer/ItemList" to="." method="selectItem"]
 
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/Button" to="." method="_addnewitem"]
@@ -370,5 +373,7 @@ flat = false
 [connection signal="item_selected" from="HBoxContainer/PanelContainer/A/GridContainer/OptionButton" to="." method="equipmentTypeChanged"]
 
 [connection signal="text_entered" from="HBoxContainer/PanelContainer/PanelContainer/HBoxContainer/LineEdit" to="." method="descriptionChanged"]
+
+[connection signal="pressed" from="HBoxContainer/PanelContainer/X/PanelContainer 2/EffectList&Notes/Button" to="." method="openEffectList"]
 
 
