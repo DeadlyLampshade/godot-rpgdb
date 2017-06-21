@@ -1,13 +1,7 @@
 tool
 extends Container
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
-#var data = { "equipment": [] }
-
 onready var list = get_node("HBoxContainer/VBoxContainer/ItemList")
-
 onready var name = get_node("HBoxContainer/PanelContainer/A/GridContainer/LineEdit")
 onready var equipType = get_node("HBoxContainer/PanelContainer/A/GridContainer/OptionButton")
 onready var desc = get_node("HBoxContainer/PanelContainer/PanelContainer/HBoxContainer/LineEdit")

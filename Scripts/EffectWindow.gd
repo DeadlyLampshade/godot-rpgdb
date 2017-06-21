@@ -1,9 +1,6 @@
 tool
 extends ConfirmationDialog
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
 const EffectDetail = \
 	[{'name': "Absorb/Recoil (Additional)", 'desc': "When attacking, adjust {Parameter} by {Amount}."},
 	{'name': "Absorb/Recoil (Damage Mult.)", 'desc': "When attacking, adjust {Parameter} by {Multiplier} of damage taken."},

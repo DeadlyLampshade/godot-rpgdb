@@ -1,10 +1,6 @@
 tool
 extends ConfirmationDialog
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
-
 onready var name = get_node("HRootContainer/VRootContainer/EffectNameContainer/EffectNameEdit")
 onready var desc = get_node("HRootContainer/VRootContainer/VBoxContainer/LineEdit")
 onready var display = get_node("HRootContainer/VRootContainer/VBoxContainer 2/LineEdit")

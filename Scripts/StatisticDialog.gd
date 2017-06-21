@@ -32,7 +32,7 @@ func blank():
 	parametername.set_text("")
 	parametershort.set_text("")
 
-func workData(dict):
+func unclean(dict):
 	shortname.set_text(dict.name)
 	fullname.set_text(dict.fullname)
 	averagevalue.set_value(dict.average)
@@ -45,7 +45,7 @@ func workData(dict):
 		parametername.set_text("")
 		parametershort.set_text("")
 
-func cleanData():
+func clean():
 	var dict = { "name": shortname.get_text(), \
 	"fullname": fullname.get_text(), \
 	"average": averagevalue.get_val(), \
