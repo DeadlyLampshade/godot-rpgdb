@@ -1,4 +1,4 @@
-# godot-rpgdb
+# Radical Plugin: Godot Database Manager (RPGDB)
 An easy to use JSON database-manager for Godot.
 
 Currently this project only works for the latest stable version of Godot (2.1.3)
