@@ -62,6 +62,19 @@ func blankEditing():
 	wasEditing = false
 
 
+#==========
+# BLANKING
+#==========
+
+func removeBlankEntriesAtEnd():
+	while checkIfEmptyEntry(getData()[focus_list].back()):
+		getData()[focus_list].pop_back()
+
+
+func findFirstEmptyEntry(array):
+	return array.find("empty")
+
+
 #=================
 # SETUP FOR LISTS
 #=================
@@ -107,7 +120,8 @@ func setIndex(index):
 
 
 func deleteItemFromList():
-	getData()[focus_list].remove(editing)
+	getData()[focus_list][editing] = "empty"
+	removeBlankEntriesAtEnd()
 	reloadSelectedList(focus_list)
 
 
@@ -125,16 +139,24 @@ func finishNewElement():
 		getData().elements[editing] = elementDialog.clean()
 		wasEditing = false
 	else:
-		getData().elements.append(elementDialog.clean())
+		var index = findFirstEmptyEntry(getData().elements)
+		if index == -1:
+			getData().elements.append(elementDialog.clean())
+		else:
+			getData().elements[index] = elementDialog.clean()
 	reloadElementList()
 	pass # replace with function body
 
 
 func editElement(index):
-	wasEditing = false
+	wasEditing = true
 	editing = index
-	elementDialog.unclean(getData().elements[editing])
-	elementDialog.popup_centered()
+	if checkIfEmptyEntry(getData().elements[editing]):
+		elementDialog.blank()
+		elementDialog.popup_centered()
+	else:
+		elementDialog.unclean(getData().elements[editing])
+		elementDialog.popup_centered()
 
 
 #===========
@@ -160,12 +182,19 @@ func reloadSelectedList(string):
 		reloadEquipmentTypeList()
 
 
+func checkIfEmptyEntry(entry):
+	return typeof(entry) != TYPE_DICTIONARY
+
+
 func reloadElementList():
 	elementList.clear()
 	var v = 0
 	for i in getData().elements:
-		var index = "[%02d] " % v
-		elementList.add_item(index + i.name)
+		if checkIfEmptyEntry(i):
+			elementList.add_item("###BLANK###")
+		else:
+			var index = "[%02d] " % v
+			elementList.add_item(index + i.name)
 		v += 1
 
 
@@ -174,8 +203,11 @@ func reloadEffectTypeList():
 	var v = 0
 	if !getData().has("effectType"): getData().effectType = []
 	for i in getData().effectType:
-		var index = "[%03d] " % v
-		effectTypeList.add_item(index+i.name)
+		if checkIfEmptyEntry(i):
+			effectTypeList.add_item("###BLANK###")
+		else:
+			var index = "[%03d] " % v
+			effectTypeList.add_item(index+i.name)
 		v += 1
 
 
@@ -184,8 +216,11 @@ func reloadEquipmentTypeList():
 	var v = 0
 	if !getData().has("equipmentType"): getData().equipmentType = []
 	for i in getData().equipmentType:
-		var index = "[%02d] " % v
-		equipmentTypeList.add_item(index+i.name)
+		if checkIfEmptyEntry(i):
+			equipmentTypeList.add_item("###BLANK###")
+		else:
+			var index = "[%02d] " % v
+			equipmentTypeList.add_item(index+i.name)
 		v+= 1
 
 
@@ -193,8 +228,11 @@ func reloadStatisticList():
 	statisticList.clear()
 	var v = 0
 	for i in getData().statistic:
-		var index = "[%02d] " % v
-		statisticList.add_item(index + i.fullname)
+		if checkIfEmptyEntry(i):
+			statisticList.add_item("###BLANK###")
+		else:
+			var index = "[%02d] " % v
+			statisticList.add_item(index + i.fullname)
 		v += 1
 
 
@@ -214,7 +252,11 @@ func confirmNewStatistic():
 		getData().statistic[editing] = statisticDialog.clean()
 		wasEditing = false
 	else:
-		getData().statistic.append(statisticDialog.clean())
+		var index = findFirstEmptyEntry(getData().statistic)
+		if index == -1:
+			getData().statistic.append(statisticDialog.clean())
+		else:
+			getData().statistic[index] = statisticDialog.clean()
 	getData().statistic.sort_custom(self, "sortStatistic")
 	reloadStatisticList()
 	pass # replace with function body
@@ -223,8 +265,12 @@ func confirmNewStatistic():
 func editStatistic(index):
 	wasEditing = true
 	editing = index
-	statisticDialog.unclean(getData().statistic[editing])
-	statisticDialog.popup_centered()
+	if checkIfEmptyEntry(getData().statistic[editing]):
+		statisticDialog.blank()
+		statisticDialog.popup_centered()
+	else:
+		statisticDialog.unclean(getData().statistic[editing])
+		statisticDialog.popup_centered()
 
 #==============
 # EFFECT TYPES
@@ -232,6 +278,7 @@ func editStatistic(index):
 
 func createEffectType():
 	wasEditing = false
+	effectTypeDialog.blank()
 	effectTypeDialog.popup_centered()
 
 
@@ -240,15 +287,23 @@ func confirmNewEffectType():
 		getData().effectType[editing] = effectTypeDialog.clean()
 		wasEditing = false
 	else:
-		getData().effectType.append(effectTypeDialog.clean())
+		var index = findFirstEmptyEntry(getData().effectType)
+		if index == -1:
+			getData().effectType.append(effectTypeDialog.clean())
+		else:
+			getData().effectType[index] = effectTypeDialog.clean()
 	reloadEffectTypeList()
 
 
 func editEffectType(index):
 	wasEditing = true
 	editing = index
-	effectTypeDialog.unclean(getData().effectType[editing])
-	effectTypeDialog.popup_centered()
+	if checkIfEmptyEntry(getData().effectType[editing]):
+		effectTypeDialog.blank()
+		effectTypeDialog.popup_centered()
+	else:
+		effectTypeDialog.unclean(getData().effectType[editing])
+		effectTypeDialog.popup_centered()
 
 #=================
 # EQUIPMENT TYPES
@@ -265,15 +320,23 @@ func applyEquipmentType():
 		getData().equipmentType[editing] = equipmentTypeDialog.clean()
 		wasEditing=false
 	else:
-		getData().equipmentType.append(equipmentTypeDialog.clean())
+		var index = findFirstEmptyEntry(getData().equipmentType)
+		if index == -1:
+			getData().equipmentType.append(equipmentTypeDialog.clean())
+		else:
+			getData().equipmentType[index] = equipmentTypeDialog.clean()
 	reloadEquipmentTypeList()
 
 
 func editEquipmentType( index ):
 	wasEditing = true
 	editing = index
-	equipmentTypeDialog.unclean( getData().equipmentType[editing] )
-	equipmentTypeDialog.popup_centered()
+	if checkIfEmptyEntry(getData().equipmentType[editing]):
+		equipmentTypeDialog.blank()
+		equipmentTypeDialog.popup_centered()
+	else:
+		equipmentTypeDialog.unclean( getData().equipmentType[editing] )
+		equipmentTypeDialog.popup_centered()
 
 
 #=========

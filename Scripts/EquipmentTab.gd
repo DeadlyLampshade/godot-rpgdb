@@ -5,6 +5,7 @@ onready var list = get_node("HBoxContainer/VBoxContainer/ItemList")
 onready var name = get_node("HBoxContainer/PanelContainer/A/GridContainer/LineEdit")
 onready var equipType = get_node("HBoxContainer/PanelContainer/A/GridContainer/OptionButton")
 onready var desc = get_node("HBoxContainer/PanelContainer/PanelContainer/HBoxContainer/LineEdit")
+onready var effectdialog = get_node("EffectWindow")
 
 var statisticbox_obj = preload("../Scenes/StatisticBox.tscn")
 
@@ -37,6 +38,14 @@ func aboutToShow():
 	reloadList()
 
 
+#==========
+# BLANKING
+#==========
+
+func checkIfEmptyEntry(entry):
+	return typeof(entry) != TYPE_DICTIONARY
+
+
 #========================
 # MODIFICATION FUNCTIONS
 #========================
@@ -51,7 +60,8 @@ func nameChanged( text ):
 
 func equipmentTypeChanged(ID):
 	var item = get_parent().data.equipment[currentlyEditing]
-	item.equipType = ID
+	print(equipType.get_item_metadata(ID))
+	item.equipType = equipType.get_item_metadata(ID)
 
 
 func descriptionChanged( text ):
@@ -84,13 +94,15 @@ func createParams():
 		i.free()
 	var tab = get_parent()
 	spinboxes = []
+	var v= 0
 	for i in tab.data.system.statistic:
-		var spinbox = statisticbox_obj.instance()
-		paramcontainer.add_child(spinbox)
-		spinbox.get_child(0).set_text(i.name.to_upper() + ":")
-		spinboxes.append(spinbox.get_child(1))
-		var current_size = spinboxes.size()-1
-		spinbox.get_child(1).connect("value_changed", self, "paramChanged", [current_size])
+		if !checkIfEmptyEntry(i):
+			var spinbox = statisticbox_obj.instance()
+			paramcontainer.add_child(spinbox)
+			spinbox.get_child(0).set_text(i.name.to_upper() + ":")
+			spinboxes.append({ "obj": spinbox.get_child(1), "stat": v})
+			spinbox.get_child(1).connect("value_changed", self, "paramChanged", [v])
+		v += 1
 
 func reloadList():
 	list.clear()
@@ -104,27 +116,37 @@ func reloadList():
 
 func refreshEquipmentTypeList():
 	equipType.clear()
+	var v = 0
 	for i in get_parent().data.system.equipmentType:
-		equipType.add_item(i.name)
+		if !checkIfEmptyEntry(i):
+			equipType.add_item(i.name)
+			equipType.set_item_metadata(equipType.get_item_count()-1, v)
+		v+=1
 
 
 func changeToItem( index ):
 	var item = initItem(get_parent().data.equipment[index])
 	name.set_text(item.name)
-	equipType.select(item.equipType)
+	
+	equipType.select(0)
+	for i in range(equipType.get_item_count()):
+		if equipType.get_item_metadata(i) == item.equipType:
+			equipType.select(item.equipType)
+			break
+	
 	desc.set_text(item.desc)
 	for i in range(spinboxes.size()):
-		if (item.statistic[i] == null): 
-			item.statistic[i] = 0
-		spinboxes[i].set_value(item.statistic[i])
+		var param = spinboxes[i].stat 
+		if (item.statistic[param] == null): 
+			item.statistic[param] = 0
+		spinboxes[i].obj.set_value(item.statistic[param])
 
 
 func initItem(item):
 	var array = []
 	var dict = {"name": "", "desc": "", "equipType": 0, "statistic": array}
+	item.statistic.resize(get_parent().data.system.statistic.size())
 	for i in item:
-		if typeof(dict[i]) == 21:
-			item[i].resize(get_parent().data.system.statistic.size())
 		dict[i] = item[i]
 	
 	return dict
@@ -152,3 +174,8 @@ func deleteItem():
 func createHelp():
 	var string = "Help\nWhen editing entries, be sure to press enter before moving on.\nFailure to do so may result in data loss.\n\nKeys\nDelete: Delete an entry from a list."
 	return string
+
+func openEffectList():
+	effectdialog.popup_centered()
+	effectdialog.createOptionsList(get_parent().data.system.effectType)
+	pass # replace with function body
