@@ -215,6 +215,7 @@ func confirmNewStatistic():
 		wasEditing = false
 	else:
 		getData().statistic.append(statisticDialog.clean())
+	getData().statistic.sort_custom(self, "sortStatistic")
 	reloadStatisticList()
 	pass # replace with function body
 
@@ -273,3 +274,11 @@ func editEquipmentType( index ):
 	editing = index
 	equipmentTypeDialog.unclean( getData().equipmentType[editing] )
 	equipmentTypeDialog.popup_centered()
+
+
+#=========
+# SORTING
+#=========
+
+func sortStatistic(a,b):
+	return a.hasParameter == true and b.hasParameter == false
