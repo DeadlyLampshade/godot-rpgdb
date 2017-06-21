@@ -1,0 +1,322 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://addons/database_manager/Scripts/StatisticDialog.gd" type="Script" id=1]
+
+[node name="ConfirmationDialog" type="ConfirmationDialog"]
+
+rect/min_size = Vector2( 320, 220 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 320.0
+margin/bottom = 220.0
+popup/exclusive = false
+window/title = "Statistic"
+dialog/hide_on_ok = false
+script/script = ExtResource( 1 )
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 0
+size_flags/vertical = 0
+margin/left = 5.0
+margin/top = 5.0
+margin/right = 5.0
+margin/bottom = 35.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 7.0
+margin/top = 7.0
+margin/right = 303.0
+margin/bottom = 173.0
+custom_constants/separation = 10
+alignment = 0
+
+[node name="Top" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 296.0
+margin/bottom = 42.0
+alignment = 0
+
+[node name="FullNameContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Top"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 230.0
+margin/bottom = 42.0
+alignment = 0
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/Top/FullNameContainer"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 230.0
+margin/bottom = 14.0
+text = "Full Name"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="LineEdit" type="LineEdit" parent="PanelContainer/VBoxContainer/Top/FullNameContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 18.0
+margin/right = 230.0
+margin/bottom = 42.0
+placeholder/alpha = 0.6
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="ShortVerContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Top"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 234.0
+margin/top = 0.0
+margin/right = 296.0
+margin/bottom = 42.0
+alignment = 0
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/Top/ShortVerContainer"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 62.0
+margin/bottom = 14.0
+text = "Short Ver."
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="LineEdit" type="LineEdit" parent="PanelContainer/VBoxContainer/Top/ShortVerContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 18.0
+margin/right = 62.0
+margin/bottom = 42.0
+placeholder/alpha = 0.6
+max_length = 3
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="Middle" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 52.0
+margin/right = 296.0
+margin/bottom = 94.0
+alignment = 0
+
+[node name="AverageValueContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Middle"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 90.0
+margin/bottom = 42.0
+alignment = 0
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/Middle/AverageValueContainer"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 90.0
+margin/bottom = 14.0
+text = "Average Value"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="SpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/Middle/AverageValueContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 18.0
+margin/right = 90.0
+margin/bottom = 42.0
+range/min = 0.0
+range/max = 99999.0
+range/step = 1.0
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = true
+editable = true
+prefix = ""
+suffix = ""
+
+[node name="ParameterCheckBox" type="CheckBox" parent="PanelContainer/VBoxContainer/Middle"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 94.0
+margin/top = 0.0
+margin/right = 296.0
+margin/bottom = 42.0
+toggle_mode = true
+enabled_focus_mode = 2
+shortcut = null
+text = "has a Parameter"
+flat = false
+align = 0
+
+[node name="Bottom" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 104.0
+margin/right = 296.0
+margin/bottom = 146.0
+alignment = 0
+
+[node name="ParameterNameContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Bottom"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 230.0
+margin/bottom = 42.0
+alignment = 0
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/Bottom/ParameterNameContainer"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 230.0
+margin/bottom = 14.0
+text = "Parameter Name"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="LineEdit" type="LineEdit" parent="PanelContainer/VBoxContainer/Bottom/ParameterNameContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 18.0
+margin/right = 230.0
+margin/bottom = 42.0
+placeholder/alpha = 0.6
+editable = false
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="ShortTerm" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Bottom"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 234.0
+margin/top = 0.0
+margin/right = 296.0
+margin/bottom = 42.0
+alignment = 0
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/Bottom/ShortTerm"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 62.0
+margin/bottom = 14.0
+text = "Short Ver."
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="LineEdit" type="LineEdit" parent="PanelContainer/VBoxContainer/Bottom/ShortTerm"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 18.0
+margin/right = 62.0
+margin/bottom = 42.0
+placeholder/alpha = 0.6
+max_length = 3
+editable = false
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[connection signal="toggled" from="PanelContainer/VBoxContainer/Middle/ParameterCheckBox" to="." method="adjustParameterState"]
+
+

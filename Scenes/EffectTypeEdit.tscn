@@ -1,0 +1,179 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://addons/database_manager/Scripts/EffectTypeEdit.gd" type="Script" id=1]
+
+[node name="EffectTypeDialog" type="ConfirmationDialog"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 312.0
+margin/top = 180.0
+margin/right = 712.0
+margin/bottom = 420.0
+popup/exclusive = false
+window/title = "Effect Type Editor"
+dialog/hide_on_ok = false
+script/script = ExtResource( 1 )
+
+[node name="HRootContainer" type="HBoxContainer" parent="."]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 5.0
+margin/top = 5.0
+margin/right = 5.0
+margin/bottom = 45.0
+alignment = 0
+
+[node name="VRootContainer" type="VBoxContainer" parent="HRootContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 390.0
+margin/bottom = 190.0
+custom_constants/separation = 10
+alignment = 0
+
+[node name="EffectNameContainer" type="VBoxContainer" parent="HRootContainer/VRootContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 390.0
+margin/bottom = 42.0
+alignment = 0
+
+[node name="Label" type="Label" parent="HRootContainer/VRootContainer/EffectNameContainer"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 390.0
+margin/bottom = 14.0
+text = "Effect Name"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="EffectNameEdit" type="LineEdit" parent="HRootContainer/VRootContainer/EffectNameContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 18.0
+margin/right = 390.0
+margin/bottom = 42.0
+placeholder/alpha = 0.6
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HRootContainer/VRootContainer"]
+
+hint/tooltip = "Not only is the effect description, it also determines what inputs are available to you.
+Example inputs include: {Parameter}, {Stat}, {Amount}, {Rate}, {Multiplier}, {Element}"
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 52.0
+margin/right = 390.0
+margin/bottom = 138.0
+alignment = 0
+
+[node name="Label" type="Label" parent="HRootContainer/VRootContainer/VBoxContainer"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 390.0
+margin/bottom = 14.0
+text = "Effect Description"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="LineEdit" type="TextEdit" parent="HRootContainer/VRootContainer/VBoxContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 18.0
+margin/right = 390.0
+margin/bottom = 86.0
+custom_colors/current_line_color = Color( 0, 0, 0, 0 )
+syntax_highlighting = false
+show_line_numbers = false
+highlight_all_occurrences = false
+caret/block_caret = false
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="VBoxContainer 2" type="VBoxContainer" parent="HRootContainer/VRootContainer"]
+
+hint/tooltip = "This is shown in the effects list. It should contain %s equal to all the values."
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 148.0
+margin/right = 390.0
+margin/bottom = 190.0
+alignment = 0
+
+[node name="Label" type="Label" parent="HRootContainer/VRootContainer/VBoxContainer 2"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 390.0
+margin/bottom = 14.0
+text = "Display String"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="LineEdit" type="LineEdit" parent="HRootContainer/VRootContainer/VBoxContainer 2"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 18.0
+margin/right = 390.0
+margin/bottom = 42.0
+placeholder/alpha = 0.6
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+

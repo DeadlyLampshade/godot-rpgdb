@@ -1,0 +1,118 @@
+[gd_scene format=1]
+
+[node name="Database Editor" type="WindowDialog"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 320.0
+margin/bottom = 200.0
+popup/exclusive = false
+window/title = "RPGDB Launcher"
+
+[node name="VContainer" type="VBoxContainer" parent="."]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 5.0
+margin/top = 5.0
+margin/right = 5.0
+margin/bottom = 5.0
+alignment = 0
+
+[node name="HContainer" type="HBoxContainer" parent="VContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 310.0
+margin/bottom = 93.0
+alignment = 0
+
+[node name="Edit Database" type="Button" parent="VContainer/HContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 153.0
+margin/bottom = 93.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Edit Database"
+flat = false
+
+[node name="Defaults" type="VBoxContainer" parent="VContainer/HContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 157.0
+margin/top = 0.0
+margin/right = 310.0
+margin/bottom = 93.0
+alignment = 0
+
+[node name="Save" type="Button" parent="VContainer/HContainer/Defaults"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 153.0
+margin/bottom = 44.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Save Defaults"
+flat = false
+
+[node name="Load" type="Button" parent="VContainer/HContainer/Defaults"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 48.0
+margin/right = 153.0
+margin/bottom = 93.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Load Defaults"
+flat = false
+
+[node name="Options" type="Button" parent="VContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 97.0
+margin/right = 310.0
+margin/bottom = 190.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Options"
+flat = false
+
+

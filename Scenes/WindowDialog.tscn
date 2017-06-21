@@ -1,0 +1,153 @@
+[gd_scene load_steps=5 format=1]
+
+[ext_resource path="res://addons/database_manager/Scripts/WindowDialog.gd" type="Script" id=1]
+[ext_resource path="res://addons/database_manager/Scripts/RealtimeDatabaseManager.gd" type="Script" id=2]
+[ext_resource path="res://addons/database_manager/Scenes/Equipment.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/database_manager/Scenes/Terms.tscn" type="PackedScene" id=4]
+
+[node name="WindowDialog" type="WindowDialog"]
+
+rect/min_size = Vector2( 700, 500 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 800.0
+margin/bottom = 500.0
+popup/exclusive = false
+window/title = "Database Manager"
+script/script = ExtResource( 1 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 3.0
+margin/top = 5.0
+margin/right = 3.0
+margin/bottom = 5.0
+alignment = 0
+
+[node name="HBoxContainer 2" type="HBoxContainer" parent="VBoxContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 794.0
+margin/bottom = 22.0
+alignment = 0
+
+[node name="Save Current" type="ToolButton" parent="VBoxContainer/HBoxContainer 2"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 92.0
+margin/bottom = 22.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Save Current"
+flat = true
+
+[node name="Save All" type="ToolButton" parent="VBoxContainer/HBoxContainer 2"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 96.0
+margin/top = 0.0
+margin/right = 158.0
+margin/bottom = 22.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Save All"
+flat = true
+
+[node name="ToolButton 2" type="ToolButton" parent="VBoxContainer/HBoxContainer 2"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 162.0
+margin/top = 0.0
+margin/right = 204.0
+margin/bottom = 22.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Help"
+flat = true
+
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 26.0
+margin/right = 794.0
+margin/bottom = 490.0
+tab_align = 0
+tabs_visible = true
+script/script = ExtResource( 2 )
+
+[node name="Equipment" parent="VBoxContainer/TabContainer" instance=ExtResource( 3 )]
+
+[node name="System" parent="VBoxContainer/TabContainer" instance=ExtResource( 4 )]
+
+visibility/visible = false
+
+[node name="PopupPanel" type="PopupPanel" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 200.0
+margin/top = 200.0
+margin/right = 400.0
+margin/bottom = 400.0
+popup/exclusive = false
+
+[node name="Label" type="Label" parent="PopupPanel"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 25.0
+margin/top = 25.0
+margin/right = 25.0
+margin/bottom = 25.0
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer 2/ToolButton 2" to="." method="provideContextualHelp"]
+
+[connection signal="tab_changed" from="VBoxContainer/TabContainer" to="VBoxContainer/TabContainer" method="runTabRefresh"]
+
+[connection signal="tab_changed" from="VBoxContainer/TabContainer" to="." method="changeHelpButton"]
+
+
