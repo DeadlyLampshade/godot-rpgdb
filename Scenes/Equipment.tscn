@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=1]
 
-[ext_resource path="res://addons/database_manager/Scripts/EquipmentTab.gd" type="Script" id=1]
-[ext_resource path="res://addons/database_manager/Scenes/EffectWindow.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/godot-rpgdb/Scripts/EquipmentTab.gd" type="Script" id=1]
+[ext_resource path="res://addons/godot-rpgdb/Scenes/EffectWindow.tscn" type="PackedScene" id=2]
+
 
 [node name="Equipment" type="Container"]
 

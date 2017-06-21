@@ -1,6 +1,7 @@
 [gd_scene load_steps=2 format=1]
 
-[ext_resource path="res://addons/database_manager/Scripts/OptionsWindow.gd" type="Script" id=1]
+[ext_resource path="res://addons/godot-rpgdb/Scripts/OptionsWindow.gd" type="Script" id=1]
+
 
 [node name="OptionsWindow" type="WindowDialog"]
 

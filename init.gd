@@ -73,13 +73,13 @@ func saveConfig():
 #=======================
 
 func createLauncherDock():
-	dock = preload("res://addons/database_manager/Scenes/TestDock.tscn").instance()
+	dock = preload("res://addons/godot-rpgdb/Scenes/TestDock.tscn").instance()
 	dock.connect("pressed", self, "displayLauncher")
 	add_control_to_container(0 , dock)
 
 
 func createLauncherWindow():
-	launcher = preload("res://addons/database_manager/Scenes/Launcher.tscn").instance()
+	launcher = preload("res://addons/godot-rpgdb/Scenes/Launcher.tscn").instance()
 	launcher.get_node("VContainer/HContainer/Edit Database").connect("pressed", self, "displayDatabase") # Connects the pressed button to onDatabaseClick()
 	launcher.get_node("VContainer/HContainer/Defaults/Save").connect("pressed", self, "saveDefaults") # Connects the pressed button to onDatabaseClick()
 	launcher.get_node("VContainer/HContainer/Defaults/Load").connect("pressed", self, "loadDefaults") # Connects the pressed button to onDatabaseClick()
@@ -88,13 +88,13 @@ func createLauncherWindow():
 
 
 func createOptionsWindow():
-	options = preload("res://addons/database_manager/Scenes/OptionsWindow.tscn").instance()
+	options = preload("res://addons/godot-rpgdb/Scenes/OptionsWindow.tscn").instance()
 	options.connect("hide", self, "saveConfig")
 	get_base_control().add_child(options)
 
 
 func createDatabaseWindow():
-	databaseWindow = preload("res://addons/database_manager/Scenes/WindowDialog.tscn").instance()
+	databaseWindow = preload("res://addons/godot-rpgdb/Scenes/WindowDialog.tscn").instance()
 	databaseWindow.connect("popup_hide", self, "checkIfSaveDatabase")
 	databaseWindow.get_node("VBoxContainer/HBoxContainer 2/Save All").connect("pressed", self, "saveDatabase")
 	get_base_control().add_child(databaseWindow)
