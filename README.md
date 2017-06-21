@@ -2,7 +2,7 @@
 An easy to use JSON database-manager for Godot. **(PRE-ALPHA)** (Compatible with Godot 2.1.3)
 
 ## What is it's purpose?
-When your programming an RPG, or a strategy game or whatever, you're going to require **a lot of data.** You can either create it in the script files, which is very hard to keep track of, or use the Godot means of creating resources with exported scripts, but there are **limits** to what you can export to the inspector. 
+When your programming an RPG, or a strategy game or whatever, you're going to require **a lot of data.** You can either create it in the script files, which is very hard to keep track of, or use the Godot means of creating resources with exported scripts, but there are **limits** to what you can export to Godots inspector. 
 
 The third option is to create a plugin yourself to handle the data and load it at runtime. But with this plugin, **you won't even need to.**
 
