@@ -6,7 +6,6 @@
 [ext_resource path="res://addons/godot-rpgdb/Scenes/EffectTypeEdit.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/godot-rpgdb/Scenes/EquipmentTypeDialog.tscn" type="PackedScene" id=5]
 
-
 [node name="System" type="Container"]
 
 anchor/right = 1
@@ -370,7 +369,6 @@ margin/bottom = 266.0
 [node name="ElementDialog" parent="." instance=ExtResource( 2 )]
 
 visibility/visible = false
-dialog/hide_on_ok = false
 
 [node name="StatisticsDialog" parent="." instance=ExtResource( 3 )]
 
@@ -379,10 +377,12 @@ margin/left = 352.0
 margin/top = 190.0
 margin/right = 672.0
 margin/bottom = 410.0
+dialog/hide_on_ok = true
 
 [node name="EffectTypeDialog" parent="." instance=ExtResource( 4 )]
 
 visibility/visible = false
+dialog/hide_on_ok = true
 
 [node name="EquipmentTypeDialog" parent="." instance=ExtResource( 5 )]
 

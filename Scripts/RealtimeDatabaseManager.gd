@@ -9,4 +9,3 @@ func GetData():
 
 func runTabRefresh( tab ):
 	get_current_tab_control().refreshTab()
-	pass # replace with function body

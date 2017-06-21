@@ -2,7 +2,6 @@
 
 [ext_resource path="res://addons/godot-rpgdb/Scripts/OptionsWindow.gd" type="Script" id=1]
 
-
 [node name="OptionsWindow" type="WindowDialog"]
 
 focus/ignore_mouse = false
@@ -60,8 +59,8 @@ margin/left = 0.0
 margin/top = 27.0
 margin/right = 480.0
 margin/bottom = 67.0
-text = "Whenever the database closes, it will cue a save for all databases. Turning this off is recommended when working in a team"
-align = 3
+text = "Whenever the database closes, it will cue a save for all databases. 
+Turning this off is recommended when collaborating."
 autowrap = true
 percent_visible = 1.0
 lines_skipped = 0

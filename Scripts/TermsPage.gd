@@ -117,7 +117,6 @@ func deleteItemFromList():
 
 func createNewElement():
 	wasEditing = false
-	elementDialog.blank()
 	elementDialog.popup_centered()
 
 
@@ -127,13 +126,12 @@ func finishNewElement():
 		wasEditing = false
 	else:
 		getData().elements.append(elementDialog.clean())
-	elementDialog.hide()
 	reloadElementList()
 	pass # replace with function body
 
 
 func editElement(index):
-	wasEditing = true
+	wasEditing = false
 	editing = index
 	elementDialog.unclean(getData().elements[editing])
 	elementDialog.popup_centered()
@@ -149,7 +147,6 @@ func reloadAllLists():
 	reloadStatisticList()
 	reloadEffectTypeList()
 	reloadEquipmentTypeList()
-	pass # replace with function body
 
 
 func reloadSelectedList(string):
@@ -206,7 +203,7 @@ func reloadStatisticList():
 #============
 
 func addStatistic():
-	blankEditing()
+	wasEditing = false
 	statisticDialog.blank()
 	statisticDialog.popup_centered()
 	pass # replace with function body
@@ -218,7 +215,6 @@ func confirmNewStatistic():
 		wasEditing = false
 	else:
 		getData().statistic.append(statisticDialog.clean())
-	statisticDialog.hide()
 	reloadStatisticList()
 	pass # replace with function body
 
@@ -235,7 +231,6 @@ func editStatistic(index):
 
 func createEffectType():
 	wasEditing = false
-	blankEditing()
 	effectTypeDialog.popup_centered()
 
 
@@ -245,7 +240,6 @@ func confirmNewEffectType():
 		wasEditing = false
 	else:
 		getData().effectType.append(effectTypeDialog.clean())
-	effectTypeDialog.hide()
 	reloadEffectTypeList()
 
 
@@ -263,7 +257,6 @@ func newEquipmentType():
 	wasEditing = false
 	equipmentTypeDialog.blank()
 	equipmentTypeDialog.popup_centered()
-	pass # replace with function body
 
 
 func applyEquipmentType():
@@ -272,9 +265,7 @@ func applyEquipmentType():
 		wasEditing=false
 	else:
 		getData().equipmentType.append(equipmentTypeDialog.clean())
-	equipmentTypeDialog.hide()
 	reloadEquipmentTypeList()
-	pass # replace with function body
 
 
 func editEquipmentType( index ):

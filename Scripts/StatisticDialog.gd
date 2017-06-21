@@ -1,10 +1,6 @@
 tool
 extends ConfirmationDialog
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
-
 onready var fullname = get_node("PanelContainer/VBoxContainer/Top/FullNameContainer/LineEdit")
 onready var shortname = get_node("PanelContainer/VBoxContainer/Top/ShortVerContainer/LineEdit")
 onready var parametername = get_node("PanelContainer/VBoxContainer/Bottom/ParameterNameContainer/LineEdit")
@@ -13,9 +9,6 @@ onready var averagevalue = get_node("PanelContainer/VBoxContainer/Middle/Average
 onready var hasParameter = get_node("PanelContainer/VBoxContainer/Middle/ParameterCheckBox")
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	
 	adjustParameterState(false)
 	pass
 
