@@ -5,18 +5,17 @@
 [ext_resource path="res://addons/godot-rpgdb/Scenes/Equipment.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/godot-rpgdb/Scenes/Terms.tscn" type="PackedScene" id=4]
 
-
 [node name="WindowDialog" type="WindowDialog"]
 
-rect/min_size = Vector2( 700, 500 )
+rect/min_size = Vector2( 640, 480 )
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 3
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 800.0
-margin/bottom = 500.0
+margin/right = 640.0
+margin/bottom = 480.0
 popup/exclusive = false
 window/title = "Database Manager"
 script/script = ExtResource( 1 )
@@ -43,7 +42,7 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 794.0
+margin/right = 634.0
 margin/bottom = 22.0
 alignment = 0
 
@@ -103,8 +102,8 @@ size_flags/horizontal = 3
 size_flags/vertical = 3
 margin/left = 0.0
 margin/top = 26.0
-margin/right = 794.0
-margin/bottom = 490.0
+margin/right = 634.0
+margin/bottom = 470.0
 tab_align = 0
 tabs_visible = true
 script/script = ExtResource( 2 )

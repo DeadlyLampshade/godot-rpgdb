@@ -10,10 +10,13 @@ onready var effectList = get_node("HBoxContainer/PanelContainer/X/PanelContainer
 
 var statisticbox_obj = preload("../Scenes/StatisticBox.tscn")
 
-onready var paramcontainer = get_node("HBoxContainer/PanelContainer/X/B/PanelContainer/GridContainer")
+onready var paramcontainer = get_node("HBoxContainer/PanelContainer/X/B/PanelContainer/VSplitContainer/GridContainer")
+onready var statcontainer = get_node("HBoxContainer/PanelContainer/X/B/PanelContainer/VSplitContainer/GridContainer1")
+
 var spinboxes = []
 
 var currentlyEditing = -1
+var currentList
 
 #=================
 # GODOT CALLBACKS
@@ -75,6 +78,7 @@ func paramChanged( value, parameter ):
 
 
 func selectItem( index ):
+	currentList = get_focus_owner()
 	if (not list.is_item_selectable(index) or list.is_item_disabled(index)): return
 	currentlyEditing = index
 	changeToItem(currentlyEditing)
@@ -93,13 +97,16 @@ func refreshTab():
 func createParams():
 	for i in paramcontainer.get_children():
 		i.free()
+	for i in statcontainer.get_children():
+		i.free()
 	var tab = get_parent()
 	spinboxes = []
 	var v= 0
 	for i in tab.data.system.statistic:
 		if !checkIfEmptyEntry(i):
 			var spinbox = statisticbox_obj.instance()
-			paramcontainer.add_child(spinbox)
+			if i.hasParameter: paramcontainer.add_child(spinbox)
+			else: statcontainer.add_child(spinbox)
 			spinbox.get_child(0).set_text(i.name.to_upper() + ":")
 			spinboxes.append({ "obj": spinbox.get_child(1), "stat": v})
 			spinbox.get_child(1).connect("value_changed", self, "paramChanged", [v])
@@ -122,15 +129,19 @@ func getDisplayName(effect):
 	
 	var display = effectTypes[effect.type].display
 	print(display)
-	var array_of_strings = []
+	var v = 0
 	for i in effect.args:
+		var string_to_replace = "{%s}" % v
 		var todisplay = ""
+		
 		if i.type == 0:
-			todisplay = "%+.f" % i.value
+			todisplay = "%s" % i.value
+			if sign(i.value) == 1:
+				todisplay = "+" + todisplay
 		if i.type == 1:
-			todisplay = "%.2fx" % i.value
+			todisplay = "%sx" % i.value
 		if i.type == 2:
-			todisplay = "%.f%%" % i.value
+			todisplay = "%s%%" % i.value
 		if i.type == 3:
 			if i.value >= 0: todisplay = elements[i.value].name
 			else:
@@ -145,8 +156,8 @@ func getDisplayName(effect):
 				todisplay = "Target"
 		if i.type == 6:
 			todisplay = statistics[i.value].name
-		array_of_strings.append(todisplay)
-	display = display % array_of_strings
+		display = display.replace(string_to_replace, todisplay)
+		v+= 1
 	return display
 
 func reloadEffectList():
@@ -211,10 +222,16 @@ func _addnewitem():
 
 
 func deleteItem():
-	get_parent().data.equipment.remove(currentlyEditing)
-	reloadList()
-	currentlyEditing = min(currentlyEditing, list.get_item_count()-1)
-	list.select(currentlyEditing)
+	if currentList == effectList:
+		get_parent().data.equipment[currentlyEditing].effects.remove(currentList.get_selected_items()[0])
+		reloadEffectList()
+		var currentEffect = min(currentList.get_selected_items()[0], effectList.get_item_count()-1)
+		effectList.select(currentEffect)
+	elif currentList == list:
+		get_parent().data.equipment.remove(currentlyEditing)
+		reloadList()
+		currentlyEditing = min(currentlyEditing, list.get_item_count()-1)
+		list.select(currentlyEditing)
 
 
 func createHelp():
@@ -224,11 +241,18 @@ func createHelp():
 func openEffectList():
 	if currentlyEditing > -1:
 		effectdialog.popup_centered()
+		effectdialog.effect_dict = {"type": 0, "args": []}
 		effectdialog.createOptionsList(get_parent().data.system.effectType)
 
+func editEffect():
+	effectdialog.popup_centered()
 
 func createEffectOnItem():
 	print("We're did on turkey")
 	get_parent().data.equipment[currentlyEditing].effects.append(effectdialog.effect_dict)
 	reloadEffectList()
+	pass # replace with function body
+
+func getList( index ):
+	currentList = get_focus_owner()
 	pass # replace with function body

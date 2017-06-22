@@ -83,7 +83,8 @@ func createLauncherWindow():
 	launcher.get_node("VContainer/HContainer/Edit Database").connect("pressed", self, "displayDatabase") # Connects the pressed button to onDatabaseClick()
 	launcher.get_node("VContainer/HContainer/Defaults/Save").connect("pressed", self, "saveDefaults") # Connects the pressed button to onDatabaseClick()
 	launcher.get_node("VContainer/HContainer/Defaults/Load").connect("pressed", self, "loadDefaults") # Connects the pressed button to onDatabaseClick()
-	launcher.get_node("VContainer/Options").connect("pressed", self, "displayOptions") # Connects the pressed button to onDatabaseClick()
+	launcher.get_node("VContainer/HBoxContainer/Options").connect("pressed", self, "displayOptions") # Connects the pressed button to onDatabaseClick()
+	launcher.get_node("VContainer/HBoxContainer/VBoxContainer/SaveIndexes").connect("pressed", self, "createIndexHTML") # Connects the pressed button to onDatabaseClick()
 	get_base_control().add_child(launcher)
 
 
@@ -110,7 +111,7 @@ func displayOptions():
 
 
 func displayDatabase():
-	databaseWindow.popup_centered()
+	databaseWindow.popup_centered_ratio(0.5)
 
 
 func displayLauncher():
@@ -145,6 +146,51 @@ func saveDefaults():
 
 # LOADING
 #---------
+func checkIfEmpty(entry):
+	return typeof(entry) != TYPE_DICTIONARY
+
+func BakeHTML():
+	var _database = Globals.get("RPGDB_database")
+	var string = "<html><body><h1>RPGDB Indexes</h1>"
+	string += "<h2>Equipment</h2><ul>"
+	for i in range(_database.equipment.size()):
+		if checkIfEmpty(_database.equipment[i]):
+			string += "<li>%s: %s</li>" % [i, "Reserved (Empty)"]
+		else:
+			string += "<li>%s: %s</li>" % [i, _database.equipment[i].name]
+	string += "</ul><h2>Elements</h2><ul>"
+	for i in range(_database.system.elements.size()):
+		if checkIfEmpty(_database.system.elements[i]):
+			string += "<li>%s: %s</li>" % [i, "Reserved (Empty)"]
+		else:
+			string += "<li>%s: %s</li>" % [i, _database.system.elements[i].name]
+	string += "</ul><h2>Equipment Types</h2><ul>"
+	for i in range(_database.system.equipmentType.size()):
+		if checkIfEmpty(_database.system.equipmentType[i]):
+			string += "<li>%s: %s</li>" % [i, "Reserved (Empty)"]
+		else:
+			string += "<li>%s: %s</li>" % [i, _database.system.equipmentType[i].name]
+	string += "</ul><h2>Statistics</h2><ul>"
+	for i in range(_database.system.statistic.size()):
+		if checkIfEmpty(_database.system.statistic[i]):
+			string += "<li>%s: %s</li>" % [i, "Reserved (Empty)"]
+		else:
+			string += "<li>%s: %s</li>" % [i, _database.system.statistic[i].fullname]
+	string += "</ul><h2>Effect Types</h2><ul>"
+	for i in range(_database.system.effectType.size()):
+		if checkIfEmpty(_database.system.effectType[i]):
+			string += "<li>%s: %s</li>" % [i, "Reserved (Empty)"]
+		else:
+			string += "<li>%s: %s</li>" % [i, _database.system.effectType[i].name]
+	string += "</ul></body></html>"
+	return string
+
+func createIndexHTML():
+	var string = BakeHTML()
+	var file = File.new()
+	file.open("res://index.html", File.WRITE)
+	file.store_line(string)
+	file.close()
 
 func loadDatabase():
 	var equipment_database = load_database("equipment")

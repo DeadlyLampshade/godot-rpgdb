@@ -28,6 +28,8 @@ func _ready():
 	regex.compile("({.*?})", 1)
 
 func createOptionsList(dict):
+	removeAllChildren()
+	currentlySelected -= 1
 	effect_list = dict
 	options.clear()
 	var v = 0
@@ -59,6 +61,7 @@ func createAmount(id):
 	spinbox.set_value(0)
 	spinbox.set_step(0)
 	spinbox.connect("value_changed", self, "changeArgValue", [id])
+	effect_dict.args[id].value = 0
 	return spinbox
 
 func createRate(id):
@@ -68,6 +71,7 @@ func createRate(id):
 	spinbox.set_value(0)
 	spinbox.set_step(0)
 	spinbox.connect("value_changed", self, "changeArgValue", [id])
+	effect_dict.args[id].value = 0
 	return spinbox
 
 func createElementOptions(id):
@@ -76,6 +80,7 @@ func createElementOptions(id):
 	optionbox.add_item("All")
 	for i in Globals.get("RPGDB_database").system.elements:
 		optionbox.add_item(i.name)
+	effect_dict.args[id].value = -2
 	optionbox.connect("item_selected", self, "changeArgValue", [id])
 	return optionbox
 
@@ -84,6 +89,7 @@ func createParameterOptions(id):
 	for i in Globals.get("RPGDB_database").system.statistic:
 		if (i.hasParameter): optionbox.add_item(i.parameter_fullname)
 	optionbox.connect("item_selected", self, "changeArgValue", [id])
+	effect_dict.args[id].value = 0
 	return optionbox
 
 func createTargetOptions(id):
@@ -91,6 +97,7 @@ func createTargetOptions(id):
 	optionbox.add_item("Self")
 	optionbox.add_item("Enemy")
 	optionbox.connect("item_selected", self, "changeArgValue", [id])
+	effect_dict.args[id].value = 0
 	return optionbox
 
 func createStatisticOptions(id):
@@ -98,6 +105,7 @@ func createStatisticOptions(id):
 	for i in Globals.get("RPGDB_database").system.statistic:
 		optionbox.add_item(i.name)
 	optionbox.connect("item_selected", self, "changeArgValue", [id])
+	effect_dict.args[id].value = 0
 	return optionbox
 
 func refreshControls( effect ):
