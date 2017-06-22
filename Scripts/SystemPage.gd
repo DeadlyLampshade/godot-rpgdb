@@ -5,6 +5,8 @@ onready var elementDialog = get_node("ElementDialog")
 onready var statisticDialog = get_node("StatisticsDialog")
 onready var effectTypeDialog = get_node("EffectTypeDialog")
 onready var equipmentTypeDialog = get_node("EquipmentTypeDialog")
+onready var weaponTypeDialog = get_node("WeaponTypeDialog")
+var weapontypeList
 var elementList
 var statisticList
 var effectTypeList
@@ -25,6 +27,7 @@ func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
 	
+	setupWeaponTypeList()
 	setupElementList()
 	setupStatisticList()
 	setupEffectTypeList()
@@ -78,6 +81,13 @@ func findFirstEmptyEntry(array):
 #=================
 # SETUP FOR LISTS
 #=================
+
+func setupWeaponTypeList():
+	weapontypeList= get_node("VBoxContainer/PanelContainer1/HBoxContainer/WeaponContainer/ItemList")
+	weapontypeList.connect("item_activated", self, "editWeaponType")
+	weapontypeList.connect("item_selected", self, "setIndex")
+	weapontypeList.connect("focus_enter", self, "setEditingList", ["weaponType"])
+	pass
 
 func setupElementList():
 	elementList = get_node("VBoxContainer/PanelContainer1/HBoxContainer/ElementContainer/ItemList")
@@ -338,6 +348,16 @@ func editEquipmentType( index ):
 		equipmentTypeDialog.unclean( getData().equipmentType[editing] )
 		equipmentTypeDialog.popup_centered()
 
+func editWeaponType( index ):
+	wasEditing = true
+	editing = index
+	if checkIfEmptyEntry(getData().weaponType[editing]):
+		weaponTypeDialog.blank()
+		weaponTypeDialog.popup_centered()
+	else:
+		weaponTypeDialog.unclean( getData().weaponType[editing] )
+		weaponTypeDialog.popup_centered()
+
 
 #=========
 # SORTING
@@ -345,3 +365,35 @@ func editEquipmentType( index ):
 
 func sortStatistic(a,b):
 	return a.hasParameter == true and b.hasParameter == false
+
+#=============
+# WEAPON TYPE
+#=============
+
+func applyWeaponType():
+	if !getData().has("weaponType"): getData().weaponType = []
+	if wasEditing:
+		getData().weaponType[editing] = weaponTypeDialog.clean()
+		wasEditing=false
+	else:
+		var index = findFirstEmptyEntry(getData().weaponType)
+		if index == -1:
+			getData().weaponType.append(weaponTypeDialog.clean())
+		else:
+			getData().weaponType[index] = weaponTypeDialog.clean()
+	reloadWeaponTypeList()
+
+func reloadWeaponTypeList():
+	weapontypeList.clear()
+	for i in range(getData().weaponType.size()):
+		if checkIfEmptyEntry(getData().weaponType[i]):
+			print(i)
+			weapontypeList.add_item("###BLANK###")
+		else:
+			var index = "[%02d] %s" % [i, getData().weaponType[i].name]
+			weapontypeList.add_item(index)
+
+func newWeaponType():
+	wasEditing = false
+	weaponTypeDialog.blank()
+	weaponTypeDialog.popup_centered()

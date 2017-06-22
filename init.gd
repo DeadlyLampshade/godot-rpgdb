@@ -43,10 +43,10 @@ func _enter_tree():
 
 func _exit_tree():
 	# Free ALL the docks and windows before vanishing.
-	options.free()
-	databaseWindow.free()
-	dock.free()
-	launcher.free()
+	options.queue_free()
+	databaseWindow.queue_free()
+	dock.queue_free()
+	launcher.queue_free()
 
 
 #====================
@@ -150,8 +150,9 @@ func checkIfEmpty(entry):
 	return typeof(entry) != TYPE_DICTIONARY
 
 func BakeHTML():
+	# TODO: Make this more readable, and extensible.
 	var _database = Globals.get("RPGDB_database")
-	var string = "<html><body><h1>RPGDB Indexes</h1>"
+	var string = "<html><body style='font-family: arial; width: 800px; margin: 0px auto'><h1>RPGDB Indexes</h1>"
 	string += "<h2>Equipment</h2><ul>"
 	for i in range(_database.equipment.size()):
 		if checkIfEmpty(_database.equipment[i]):
@@ -164,6 +165,12 @@ func BakeHTML():
 			string += "<li>%s: %s</li>" % [i, "Reserved (Empty)"]
 		else:
 			string += "<li>%s: %s</li>" % [i, _database.system.elements[i].name]
+	string += "</ul><h2>Weapon Types</h2><ul>"
+	for i in range(_database.system.weaponType.size()):
+		if checkIfEmpty(_database.system.weaponType[i]):
+			string += "<li>%s: %s</li>" % [i, "Reserved (Empty)"]
+		else:
+			string += "<li>%s: %s</li>" % [i, _database.system.weaponType[i].name]
 	string += "</ul><h2>Equipment Types</h2><ul>"
 	for i in range(_database.system.equipmentType.size()):
 		if checkIfEmpty(_database.system.equipmentType[i]):

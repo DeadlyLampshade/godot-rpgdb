@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=1]
+[gd_scene load_steps=7 format=1]
 
-[ext_resource path="res://addons/godot-rpgdb/Scripts/TermsPage.gd" type="Script" id=1]
+[ext_resource path="res://addons/godot-rpgdb/Scripts/SystemPage.gd" type="Script" id=1]
 [ext_resource path="res://addons/godot-rpgdb/Scenes/ElementDialog.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/godot-rpgdb/Scenes/StatisticDialog.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/godot-rpgdb/Scenes/EffectTypeEdit.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/godot-rpgdb/Scenes/EquipmentTypeDialog.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/godot-rpgdb/Scenes/WeaponTypeDialog.tscn" type="PackedScene" id=6]
 
 [node name="System" type="Container"]
 
@@ -388,6 +389,12 @@ dialog/hide_on_ok = true
 
 visibility/visible = false
 
+[node name="WeaponTypeDialog" parent="." instance=ExtResource( 6 )]
+
+visibility/visible = false
+
+[connection signal="pressed" from="VBoxContainer/PanelContainer1/HBoxContainer/WeaponContainer/Button" to="." method="newWeaponType"]
+
 [connection signal="pressed" from="VBoxContainer/PanelContainer1/HBoxContainer/EquipmentContainer/Button" to="." method="newEquipmentType"]
 
 [connection signal="pressed" from="VBoxContainer/PanelContainer1/HBoxContainer/StatisticContainer/Button" to="." method="addStatistic"]
@@ -401,5 +408,7 @@ visibility/visible = false
 [connection signal="confirmed" from="EffectTypeDialog" to="." method="confirmNewEffectType"]
 
 [connection signal="confirmed" from="EquipmentTypeDialog" to="." method="applyEquipmentType"]
+
+[connection signal="confirmed" from="WeaponTypeDialog" to="." method="applyWeaponType"]
 
 
