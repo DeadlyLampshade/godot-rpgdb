@@ -73,13 +73,13 @@ func saveConfig():
 #=======================
 
 func createLauncherDock():
-	dock = preload("res://addons/godot-rpgdb/Scenes/TestDock.tscn").instance()
+	dock = preload("Scenes/TestDock.tscn").instance()
 	dock.connect("pressed", self, "displayLauncher")
 	add_control_to_container(0 , dock)
 
 
 func createLauncherWindow():
-	launcher = preload("res://addons/godot-rpgdb/Scenes/Launcher.tscn").instance()
+	launcher = preload("Scenes/Launcher.tscn").instance()
 	launcher.get_node("VContainer/HContainer/Edit Database").connect("pressed", self, "displayDatabase") # Connects the pressed button to onDatabaseClick()
 	launcher.get_node("VContainer/HContainer/Defaults/Save").connect("pressed", self, "saveDefaults") # Connects the pressed button to onDatabaseClick()
 	launcher.get_node("VContainer/HContainer/Defaults/Load").connect("pressed", self, "loadDefaults") # Connects the pressed button to onDatabaseClick()
@@ -89,13 +89,13 @@ func createLauncherWindow():
 
 
 func createOptionsWindow():
-	options = preload("res://addons/godot-rpgdb/Scenes/OptionsWindow.tscn").instance()
+	options = preload("Scenes/OptionsWindow.tscn").instance()
 	options.connect("hide", self, "saveConfig")
 	get_base_control().add_child(options)
 
 
 func createDatabaseWindow():
-	databaseWindow = preload("res://addons/godot-rpgdb/Scenes/WindowDialog.tscn").instance()
+	databaseWindow = preload("Scenes/WindowDialog.tscn").instance()
 	databaseWindow.connect("popup_hide", self, "checkIfSaveDatabase")
 	databaseWindow.get_node("VBoxContainer/HBoxContainer 2/Save All").connect("pressed", self, "saveDatabase")
 	get_base_control().add_child(databaseWindow)
@@ -156,39 +156,39 @@ func BakeHTML():
 	string += "<h2>Equipment</h2><ul>"
 	for i in range(_database.equipment.size()):
 		if checkIfEmpty(_database.equipment[i]):
-			string += "<li>%s: %s</li>" % [i, "Reserved (Empty)"]
+			string += "<li style='color: #D3D3D3'>%s: %s</li>" % [i, "Reserved (Empty)"]
 		else:
-			string += "<li>%s: %s</li>" % [i, _database.equipment[i].name]
+			string += "<li style='font-weight: bold'>%s: %s</li>" % [i, _database.equipment[i].name]
 	string += "</ul><h2>Elements</h2><ul>"
 	for i in range(_database.system.elements.size()):
 		if checkIfEmpty(_database.system.elements[i]):
-			string += "<li>%s: %s</li>" % [i, "Reserved (Empty)"]
+			string += "<li style='color: #D3D3D3'>%s: %s</li>" % [i, "Reserved (Empty)"]
 		else:
-			string += "<li>%s: %s</li>" % [i, _database.system.elements[i].name]
+			string += "<li style='font-weight: bold'>%s: %s</li>" % [i, _database.system.elements[i].name]
 	string += "</ul><h2>Weapon Types</h2><ul>"
 	for i in range(_database.system.weaponType.size()):
 		if checkIfEmpty(_database.system.weaponType[i]):
-			string += "<li>%s: %s</li>" % [i, "Reserved (Empty)"]
+			string += "<li style='color: #D3D3D3'>%s: %s</li>" % [i, "Reserved (Empty)"]
 		else:
-			string += "<li>%s: %s</li>" % [i, _database.system.weaponType[i].name]
+			string += "<li style='font-weight: bold'>%s: %s</li>" % [i, _database.system.weaponType[i].name]
 	string += "</ul><h2>Equipment Types</h2><ul>"
 	for i in range(_database.system.equipmentType.size()):
 		if checkIfEmpty(_database.system.equipmentType[i]):
-			string += "<li>%s: %s</li>" % [i, "Reserved (Empty)"]
+			string += "<li style='color: #D3D3D3'>%s: %s</li>" % [i, "Reserved (Empty)"]
 		else:
-			string += "<li>%s: %s</li>" % [i, _database.system.equipmentType[i].name]
+			string += "<li style='font-weight: bold'>%s: %s</li>" % [i, _database.system.equipmentType[i].name]
 	string += "</ul><h2>Statistics</h2><ul>"
 	for i in range(_database.system.statistic.size()):
 		if checkIfEmpty(_database.system.statistic[i]):
-			string += "<li>%s: %s</li>" % [i, "Reserved (Empty)"]
+			string += "<li style='color: #D3D3D3'>%s: %s</li>" % [i, "Reserved (Empty)"]
 		else:
-			string += "<li>%s: %s</li>" % [i, _database.system.statistic[i].fullname]
+			string += "<li style='font-weight: bold'>%s: %s</li>" % [i, _database.system.statistic[i].fullname]
 	string += "</ul><h2>Effect Types</h2><ul>"
 	for i in range(_database.system.effectType.size()):
 		if checkIfEmpty(_database.system.effectType[i]):
-			string += "<li>%s: %s</li>" % [i, "Reserved (Empty)"]
+			string += "<li style='color: #D3D3D3'>%s: %s</li>" % [i, "Reserved (Empty)"]
 		else:
-			string += "<li>%s: %s</li>" % [i, _database.system.effectType[i].name]
+			string += "<li style='font-weight: bold'>%s: %s</li>" % [i, _database.system.effectType[i].name]
 	string += "</ul></body></html>"
 	return string
 

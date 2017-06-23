@@ -179,6 +179,7 @@ func reloadAllLists():
 	reloadStatisticList()
 	reloadEffectTypeList()
 	reloadEquipmentTypeList()
+	reloadWeaponTypeList()
 
 
 func reloadSelectedList(string):
@@ -190,7 +191,8 @@ func reloadSelectedList(string):
 		reloadEffectTypeList()
 	if string == "equipmentType":
 		reloadEquipmentTypeList()
-
+	if string == "weaponType":
+		reloadWeaponTypeList()
 
 func checkIfEmptyEntry(entry):
 	return typeof(entry) != TYPE_DICTIONARY

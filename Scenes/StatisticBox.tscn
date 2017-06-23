@@ -33,14 +33,14 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 74.0
+margin/right = 58.0
 margin/bottom = 14.0
 text = "ATTACK:"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="SpinBox" type="SpinBox" parent="."]
+[node name="SpinBox" type="LineEdit" parent="."]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -48,17 +48,11 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 18.0
-margin/right = 74.0
+margin/right = 58.0
 margin/bottom = 42.0
-range/min = -99999.0
-range/max = 99999.0
-range/step = 1.0
-range/page = 0.0
-range/value = 1.0
-range/exp_edit = false
-range/rounded = false
-editable = true
-prefix = ""
-suffix = ""
+placeholder/alpha = 0.6
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
 
 

@@ -1,17 +1,14 @@
 tool
 extends Container
 
-onready var list = get_node("HBoxContainer/VBoxContainer/ItemList")
-onready var name = get_node("HBoxContainer/PanelContainer/A/GridContainer/LineEdit")
-onready var equipType = get_node("HBoxContainer/PanelContainer/A/GridContainer/OptionButton")
-onready var desc = get_node("HBoxContainer/PanelContainer/PanelContainer/HBoxContainer/LineEdit")
+onready var list = get_node("HBoxContainer/PanelContainer 2/VBoxContainer/ItemList")
+onready var name = get_node("HBoxContainer/Inputs/A/GridContainer/LineEdit")
+onready var equipType = get_node("HBoxContainer/Inputs/A/GridContainer/OptionButton")
+onready var desc = get_node("HBoxContainer/Inputs/PanelContainer/HBoxContainer/LineEdit")
 onready var effectdialog = get_node("EffectWindow")
-onready var effectList = get_node("HBoxContainer/PanelContainer/X/PanelContainer 2/EffectList&Notes/ItemList")
+onready var effectList = get_node("HBoxContainer/Inputs/X/PanelContainer 2/EffectList&Notes/ItemList")
 
-var statisticbox_obj = preload("../Scenes/StatisticBox.tscn")
-
-onready var paramcontainer = get_node("HBoxContainer/PanelContainer/X/B/PanelContainer/VSplitContainer/GridContainer")
-onready var statcontainer = get_node("HBoxContainer/PanelContainer/X/B/PanelContainer/VSplitContainer/GridContainer1")
+onready var StatisticList = get_node("HBoxContainer/Inputs/X/B/PanelContainer/StatisticList")
 
 var spinboxes = []
 
@@ -23,6 +20,7 @@ var currentList
 #=================
 
 func _ready():
+	StatisticList.connect("value_changed", self, "saveParams")
 	set_process_unhandled_input(true)
 
 
@@ -50,6 +48,15 @@ func checkIfEmptyEntry(entry):
 	return typeof(entry) != TYPE_DICTIONARY
 
 
+func removeBlankEntriesAtEnd(list):
+	while checkIfEmptyEntry(list.back()):
+		list.pop_back()
+
+
+func findFirstEmptyEntry(array):
+	return array.find("empty")
+
+
 #========================
 # MODIFICATION FUNCTIONS
 #========================
@@ -73,14 +80,18 @@ func descriptionChanged( text ):
 	item.desc = text
 
 
-func paramChanged( value, parameter ):
-	get_parent().data.equipment[currentlyEditing].statistic[parameter] = value
+func saveParams():
+	print("WE JIGGLIN OR?")
+	get_parent().data.equipment[currentlyEditing].statistic = StatisticList.clean()
+	print(get_parent().data.equipment[currentlyEditing])
 
 
 func selectItem( index ):
 	currentList = get_focus_owner()
 	if (not list.is_item_selectable(index) or list.is_item_disabled(index)): return
 	currentlyEditing = index
+	if checkIfEmptyEntry(get_parent().data.equipment[currentlyEditing]):
+		get_parent().data.equipment[currentlyEditing] = initItem({"name": "New Item"})
 	changeToItem(currentlyEditing)
 
 
@@ -95,32 +106,17 @@ func refreshTab():
 
 
 func createParams():
-	for i in paramcontainer.get_children():
-		i.free()
-	for i in statcontainer.get_children():
-		i.free()
-	var tab = get_parent()
-	spinboxes = []
-	var v= 0
-	for i in tab.data.system.statistic:
-		if !checkIfEmptyEntry(i):
-			var spinbox = statisticbox_obj.instance()
-			if i.hasParameter: paramcontainer.add_child(spinbox)
-			else: statcontainer.add_child(spinbox)
-			spinbox.get_child(0).set_text(i.name.to_upper() + ":")
-			spinboxes.append({ "obj": spinbox.get_child(1), "stat": v})
-			spinbox.get_child(1).connect("value_changed", self, "paramChanged", [v])
-		v += 1
+	StatisticList.refreshSpinboxes()
 
 func reloadList():
 	list.clear()
-	var v = 0
 	var tab = get_parent()
-	for i in tab.data.equipment:
-		if i != null:
-			var index = "[%04d] " % v
-			list.add_item(index+i.name)
-			v+=1
+	for i in range(tab.data.equipment.size()):
+		if !checkIfEmptyEntry(tab.data.equipment[i]):
+			var index = "[%04d] " % i
+			list.add_item(index+tab.data.equipment[i].name)
+		else:
+			list.add_item("###BLANK###")
 
 func getDisplayName(effect):
 	var effectTypes = get_parent().data.system.effectType
@@ -191,35 +187,24 @@ func changeToItem( index ):
 			break
 	
 	desc.set_text(item.desc)
-	for i in range(spinboxes.size()):
-		var param = spinboxes[i].stat 
-		if (item.statistic[param] == null): 
-			item.statistic[param] = 0
-		spinboxes[i].obj.set_value(item.statistic[param])
+	print(item)
+	StatisticList.unclean(item.statistic)
 	reloadEffectList()
 
 
 func initItem(item):
-	var array = []
-	var dict = {"name": "", "desc": "", "equipType": 0, "statistic": array, "effects": [] }
+	var dict = {"name": "", "desc": "", "equipType": 0, "statistic": [], "effects": [] }
+	if !item.has("statistic"):
+		item.statistic = []
+	dict.statistic.resize(get_parent().data.system.statistic.size())
 	item.statistic.resize(get_parent().data.system.statistic.size())
 	for i in item:
 		dict[i] = item[i]
-	
 	return dict
 
 #===================
 # LIST MODIFICATION
 #===================
-
-
-func _addnewitem():
-	var newdata = initItem({"name": "New Item"})
-	get_parent().data.equipment.append(newdata)
-	reloadList()
-	list.select(list.get_item_count()-1)
-	changeToItem(list.get_item_count()-1)
-
 
 func deleteItem():
 	if currentList == effectList:
@@ -228,7 +213,8 @@ func deleteItem():
 		var currentEffect = min(currentList.get_selected_items()[0], effectList.get_item_count()-1)
 		effectList.select(currentEffect)
 	elif currentList == list:
-		get_parent().data.equipment.remove(currentlyEditing)
+		get_parent().data.equipment[currentlyEditing] = "empty"
+		removeBlankEntriesAtEnd(get_parent().data.equipment)
 		reloadList()
 		currentlyEditing = min(currentlyEditing, list.get_item_count()-1)
 		list.select(currentlyEditing)
@@ -256,3 +242,18 @@ func createEffectOnItem():
 func getList( index ):
 	currentList = get_focus_owner()
 	pass # replace with function body
+
+
+func _addNewItem():
+	var newdata = initItem({"name": "New Item"})
+	var index = findFirstEmptyEntry(get_parent().data.equipment)
+	if index == -1:
+		get_parent().data.equipment.append(newdata)
+		reloadList()
+		list.select(list.get_item_count()-1)
+		changeToItem(list.get_item_count()-1)
+	else:
+		get_parent().data.equipment[index] = newdata
+		reloadList()
+		list.select(index)
+		changeToItem(index)
