@@ -68,7 +68,6 @@ func unclean(parameters):
 	values = []
 	values.resize(getData().system.statistic.size())
 	
-	print(parameters)
 	var params = parameters
 	for i in range(parameters.size()):
 		if params[i] == null: params[i] = 0
