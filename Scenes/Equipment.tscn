@@ -374,6 +374,8 @@ flat = false
 
 [connection signal="text_entered" from="HBoxContainer/Inputs/PanelContainer/HBoxContainer/LineEdit" to="." method="descriptionChanged"]
 
+[connection signal="item_activated" from="HBoxContainer/Inputs/X/PanelContainer 2/EffectList&Notes/ItemList" to="." method="editEffect"]
+
 [connection signal="item_selected" from="HBoxContainer/Inputs/X/PanelContainer 2/EffectList&Notes/ItemList" to="." method="getList"]
 
 [connection signal="pressed" from="HBoxContainer/Inputs/X/PanelContainer 2/EffectList&Notes/Button" to="." method="openEffectList"]

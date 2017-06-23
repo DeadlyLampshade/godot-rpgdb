@@ -20,8 +20,8 @@ script/script = ExtResource( 1 )
 
 focus/ignore_mouse = false
 focus/stop_mouse = false
-size_flags/horizontal = 3
-size_flags/vertical = 3
+size_flags/horizontal = 2
+size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.0
 margin/right = 4.0
@@ -45,8 +45,8 @@ margin/bottom = 13.0
 
 focus/ignore_mouse = false
 focus/stop_mouse = false
-size_flags/horizontal = 3
-size_flags/vertical = 3
+size_flags/horizontal = 2
+size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 23.0
 margin/right = 4.0

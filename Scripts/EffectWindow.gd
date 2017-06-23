@@ -1,8 +1,6 @@
 tool
 extends ConfirmationDialog
 
-onready var regex = RegEx.new()
-
 #0 - Flat Amount (%s = "%.2f")
 #1 - Multiplier (%s = "%.2fx")
 #2 - Rate (%s = "%.2%%")
@@ -18,14 +16,17 @@ var effect_list
 
 var currentlySelected = -1
 
+var currentEffect = -1
+
 var root
+var controls = []
 
 onready var details = get_node("VBoxContainer/VBoxContainer/PanelContainer 2/Label")
 onready var input_container = get_node("VBoxContainer/VBoxContainer/PanelContainer3/GridContainer")
 onready var options = get_node("VBoxContainer/PanelContainer/OptionButton")
 
 func _ready():
-	regex.compile("({.*?})", 1)
+	pass
 
 func createOptionsList(dict):
 	removeAllChildren()
@@ -40,6 +41,7 @@ func createOptionsList(dict):
 	options.sort_items_by_text()
 
 func removeAllChildren():
+	controls = []
 	for i in input_container.get_children():
 		i.free()
 
@@ -47,7 +49,6 @@ func changeArgValue(value, index):
 	var val = value
 	if effect_dict.args[index].type == 3:
 		val -= 2
-		print(val)
 	effect_dict.args[index].value = val
 
 #===================
@@ -108,12 +109,12 @@ func createStatisticOptions(id):
 	effect_dict.args[id].value = 0
 	return optionbox
 
-func refreshControls( effect ):
-	removeAllChildren()
+func parseDescription(desc):
 	var i = 0
-	var actual_effect = options.get_item_metadata(effect)
-	effect_dict = {"type": actual_effect, "args": []}
-	while regex.find(effect_list[actual_effect].desc, i) >= 0:
+	var regex = RegEx.new() 
+	regex.compile("({.*?})")
+	
+	while regex.find(desc, i) >= 0:
 		
 		# ADD EFFECT ARG AND CREATE REFERENCE TO THE NEW ARG
 		
@@ -134,12 +135,14 @@ func refreshControls( effect ):
 			effect_dict.args[reference_id].type = 1
 			var spinbox = createAmount(reference_id)
 			input_container.add_child(spinbox)
+			controls.append(spinbox)
 			handled = true
 		
 		if string == "Amount":
 			effect_dict.args[reference_id].type = 0
 			var spinbox = createAmount(reference_id)
 			input_container.add_child(spinbox)
+			controls.append(spinbox)
 			handled = true
 		
 		if string == "Rate" or string == "Percent":
@@ -147,40 +150,78 @@ func refreshControls( effect ):
 			labl.set_text(string+"(%): ")
 			var spinbox = createRate(reference_id)
 			input_container.add_child(spinbox)
+			controls.append(spinbox)
 			handled = true
 		
 		if string == "Element":
 			effect_dict.args[reference_id].type = 3
 			var optionbox = createElementOptions(reference_id)
 			input_container.add_child(optionbox)
+			controls.append(optionbox)
 			handled = true
 		
 		if string == "Parameter":
 			effect_dict.args[reference_id].type = 4
 			var optionbox = createParameterOptions(reference_id)
 			input_container.add_child(optionbox)
+			controls.append(optionbox)
 			handled = true
 		
 		if string == "Target":
 			effect_dict.args[reference_id].type = 5
 			var optionbox = createTargetOptions(reference_id)
 			input_container.add_child(optionbox)
+			controls.append(optionbox)
 			handled = true
 		
 		if string == "Statistic" or string == "Stat":
 			effect_dict.args[reference_id].type = 6
 			var optionbox = createStatisticOptions(reference_id)
 			input_container.add_child(optionbox)
+			controls.append(optionbox)
 			handled = true
 		
 		if !handled:
 			input_container.add_child(Control.new())
 
+func refreshControls( effect ):
+	removeAllChildren()
+	var actual_effect = options.get_item_metadata(effect)
+	effect_dict = {"type": actual_effect, "args": []}
+	parseDescription(effect_list[actual_effect].desc)
+
 
 func onAccept():
-	print(effect_dict.to_json())
 	pass # replace with function body
 
+func createEffect():
+	createOptionsList(get_parent().get_parent().data.system.effectType)
+	currentEffect = -1
+	effect_dict = {"type": 0, "args": []}
+	popup_centered()
+	pass
+
+func editEffect(effect):
+	createOptionsList(get_parent().get_parent().data.system.effectType)
+	effect_dict = effect
+	var old_args = Array(effect_dict.args)
+	effect_dict.args = []
+	parseDescription(get_parent().get_parent().data.system.effectType[effect_dict.type].desc)
+	effect_dict.args = old_args
+	unclean()
+	popup_centered()
+	pass
+
+func unclean():
+	for i in range(effect_dict.args.size()):
+		if controls[i] extends OptionButton:
+			var offset = 0
+			if effect_dict.args[i].type == 3:
+				offset = -2
+			controls[i].select(effect_dict.args[i].value - offset)
+		if controls[i] extends SpinBox:
+			controls[i].set_value(effect_dict.args[i].value)
+	pass
 
 func effectSelected( ID ):
 	var string = effect_list[options.get_item_metadata(ID)].desc

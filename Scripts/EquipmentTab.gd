@@ -54,7 +54,10 @@ func removeBlankEntriesAtEnd(list):
 
 
 func findFirstEmptyEntry(array):
-	return array.find("empty")
+	if typeof(array) == TYPE_DICTIONARY:
+		return -1
+	else:
+		return array.find("empty")
 
 
 #========================
@@ -71,7 +74,6 @@ func nameChanged( text ):
 
 func equipmentTypeChanged(ID):
 	var item = get_parent().data.equipment[currentlyEditing]
-	print(equipType.get_item_metadata(ID))
 	item.equipType = equipType.get_item_metadata(ID)
 
 
@@ -81,9 +83,7 @@ func descriptionChanged( text ):
 
 
 func saveParams():
-	print("WE JIGGLIN OR?")
 	get_parent().data.equipment[currentlyEditing].statistic = StatisticList.clean()
-	print(get_parent().data.equipment[currentlyEditing])
 
 
 func selectItem( index ):
@@ -124,7 +124,6 @@ func getDisplayName(effect):
 	var elements = get_parent().data.system.elements
 	
 	var display = effectTypes[effect.type].display
-	print(display)
 	var v = 0
 	for i in effect.args:
 		var string_to_replace = "{%s}" % v
@@ -187,7 +186,6 @@ func changeToItem( index ):
 			break
 	
 	desc.set_text(item.desc)
-	print(item)
 	StatisticList.unclean(item.statistic)
 	reloadEffectList()
 
@@ -226,16 +224,18 @@ func createHelp():
 
 func openEffectList():
 	if currentlyEditing > -1:
-		effectdialog.popup_centered()
-		effectdialog.effect_dict = {"type": 0, "args": []}
-		effectdialog.createOptionsList(get_parent().data.system.effectType)
+		effectdialog.createEffect()
 
-func editEffect():
-	effectdialog.popup_centered()
+func editEffect(index):
+	var item = get_parent().data.equipment[currentlyEditing]
+	effectdialog.currentEffect = index
+	effectdialog.editEffect(get_parent().data.equipment[currentlyEditing].effects[index])
 
 func createEffectOnItem():
-	print("We're did on turkey")
-	get_parent().data.equipment[currentlyEditing].effects.append(effectdialog.effect_dict)
+	if effectdialog.currentEffect != -1:
+		get_parent().data.equipment[currentlyEditing].effects[effectdialog.currentEffect] = effectdialog.effect_dict
+	else:
+		get_parent().data.equipment[currentlyEditing].effects.append(effectdialog.effect_dict)
 	reloadEffectList()
 	pass # replace with function body
 
@@ -246,6 +246,8 @@ func getList( index ):
 
 func _addNewItem():
 	var newdata = initItem({"name": "New Item"})
+	if !get_parent().data.has("equipment"):
+		get_parent().data.equipment
 	var index = findFirstEmptyEntry(get_parent().data.equipment)
 	if index == -1:
 		get_parent().data.equipment.append(newdata)
