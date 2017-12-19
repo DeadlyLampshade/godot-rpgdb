@@ -12,7 +12,7 @@ This is so you don't have to worry about scripting data management systems and b
 
 ## How do you use it?
 
-Simply drag the "godot-rpgdb" folder from this project to your projects "res://addon/" folder, and go to Scene>Project Settings and activate the plugin. 
+Simply drag the "godot-rpgdb" folder from this project to your projects "res://addons/" folder, and go to Scene>Project Settings and activate the plugin. 
 
 To start editing the databases: Click the "Start RPGDB", and then press the "Edit Database" button on the Popup.
 
